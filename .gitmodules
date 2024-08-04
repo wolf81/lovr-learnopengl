@@ -1,0 +1,15 @@
+[submodule "lighting/colors/lib/lovr-camera"]
+	path = lighting/colors/lib/lovr-camera
+	url = https://github.com/wolf81/lovr-camera.git
+[submodule "lighting/basic_lighting/lib/lovr-camera"]
+	path = lighting/basic_lighting/lib/lovr-camera
+	url = https://github.com/wolf81/lovr-camera.git
+[submodule "lighting/lighting_maps/lib/lovr-camera"]
+	path = lighting/lighting_maps/lib/lovr-camera
+	url = https://github.com/wolf81/lovr-camera.git
+[submodule "lighting/materials/lib/lovr-camera"]
+	path = lighting/materials/lib/lovr-camera
+	url = https://github.com/wolf81/lovr-camera.git
+[submodule "lighting/light_casters/lib/lovr-camera"]
+	path = lighting/light_casters/lib/lovr-camera
+	url = https://github.com/wolf81/lovr-camera.git
