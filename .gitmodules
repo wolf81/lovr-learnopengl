@@ -13,3 +13,6 @@
 [submodule "lighting/light_casters/lib/lovr-camera"]
 	path = lighting/light_casters/lib/lovr-camera
 	url = https://github.com/wolf81/lovr-camera.git
+[submodule "lighting/multiple_lights/lib/lovr-camera"]
+	path = lighting/multiple_lights/lib/lovr-camera
+	url = https://github.com/wolf81/lovr-camera.git

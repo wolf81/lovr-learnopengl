@@ -56,7 +56,7 @@ local vertices = {
     { -0.5,  0.5, -0.5,  0.0,  1.0,  0.0,  0.0, 1.0, },
 }
 
-local mesh = lovr.graphics.newMesh(vertices, 'gpu')
+local mesh = lovr.graphics.newMesh(vertices)
 
 local diffuseMap = lovr.graphics.newTexture('gfx/container2.png')
 local specularMap = lovr.graphics.newTexture('gfx/container2_specular.png')    

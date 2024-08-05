@@ -3,11 +3,12 @@ local Camera = require 'lib.lovr-camera.camera'
 -- PLEASE NOTE: this function is used to make colors appear same as in LearnOpenGL tutorial apps
 local gammaToLinear = lovr.math.gammaToLinear
 
-local camera = Camera(0, 0, 3)
+local camera = Camera(0, -3, 0)
 
 local lightPos = { 1.2, 1.0, 2.0 }
 
-local lightingShader = lovr.graphics.newShader('shd/light_casters.vs', 'shd/light_casters.fs')
+local lightingShader = lovr.graphics.newShader('shd/multiple_lights.vs', 'shd/multiple_lights.fs')
+local lightCubeShader = lovr.graphics.newShader('shd/light_cube.vs', 'shd/light_cube.fs')
 
 --    positions          normals           tex coords
 local vertices = {
@@ -57,52 +58,6 @@ local vertices = {
 
 local mesh = lovr.graphics.newMesh(vertices, 'gpu')
 
-local dirLight = {
-    ambient     = {  0.05, 0.05, 0.05 },
-    diffuse     = {  0.4,  0.4,  0.4  },
-    specular    = {  0.5,  0.5,  0.5  },
-    direction   = { -0.2, -1.0, -0.3  },
-}
-
-local pointLights = {
-    {
-        ambient     = {  0.05, 0.05,  0.05 },
-        diffuse     = {  0.8,  0.8,   0.8  },
-        specular    = {  1.0,  1.0,   1.0  },
-        position    = {  0.7,  0.2,   2.0  },
-        constant    = 1.0,
-        linear      = 0.09,
-        quadratic   = 0.032,            
-    },
-    {
-        ambient     = {  0.05, 0.05,  0.05 },
-        diffuse     = {  0.8,  0.8,   0.8  },
-        specular    = {  1.0,  1.0,   1.0  },
-        position    = { -4.0,  2.0, -12.0  },
-        constant    = 1.0,
-        linear      = 0.09,
-        quadratic   = 0.032,            
-    },
-    {
-        ambient     = {  0.05, 0.05,  0.05 },
-        diffuse     = {  0.8,  0.8,   0.8  },
-        specular    = {  1.0,  1.0,   1.0  },
-        position    = {  0.0,  0.0,  -3.0  },
-        constant    = 1.0,
-        linear      = 0.09,
-        quadratic   = 0.032,            
-    },
-    {
-        ambient     = {  0.05, 0.05,  0.05 },
-        diffuse     = {  0.8,  0.8,   0.8  },
-        specular    = {  1.0,  1.0,   1.0  },
-        position    = {  0.7,  0.2,   2.0  },
-        constant    = 1.0,
-        linear      = 0.09,
-        quadratic   = 0.032,            
-    },
-}
-
 local cubePositions = {
     lovr.math.newVec3( 0.0,  0.0,   0.0),
     lovr.math.newVec3( 2.0,  5.0, -15.0),
@@ -114,6 +69,13 @@ local cubePositions = {
     lovr.math.newVec3( 1.5,  2.0,  -2.5),
     lovr.math.newVec3( 1.5,  0.2,  -1.5),
     lovr.math.newVec3(-1.3,  1.0,  -1.5),
+}
+
+local pointLightPositions = {
+    lovr.math.newVec3( 0.7,  0.2,   2.0),
+    lovr.math.newVec3( 2.3, -3.3,  -4.0),
+    lovr.math.newVec3(-4.0,  2.0, -12.0),
+    lovr.math.newVec3( 0.0,  0.0,  -3.0),
 }
 
 local diffuseMap = lovr.graphics.newTexture('gfx/container2.png')
@@ -133,7 +95,7 @@ local function printObject(tbl, ident)
     end
 end
 
-local format, length = lightingShader:getBufferFormat('LightCaster')
+local format, length = lightingShader:getBufferFormat('Lights')
 printObject(format)
 
 function lovr.load()
@@ -151,26 +113,75 @@ function lovr.draw(pass)
         -- activate shader for drawing cube
         pass:setShader(lightingShader)
 
+        local lights = lovr.graphics.newBuffer(format, {
+            dirLight = {
+                ambient     = {  0.05, 0.05, 0.05 },
+                diffuse     = {  0.4,  0.4,  0.4  },
+                specular    = {  0.5,  0.5,  0.5  },
+                direction   = { -0.2, -1.0, -0.3  },
+            },
+            spotLight = {
+                ambient     = { 0.0, 0.0, 0.0 },
+                diffuse     = { 1.0, 1.0, 1.0 },
+                specular    = { 1.0, 1.0, 1.0 },
+                position    = camera:getPosition(),
+                direction   = camera:getDirection(),
+                constant    = 1.0,
+                linear      = 0.09,
+                quadratic   = 0.032,
+                cutOff      = math.cos(math.rad(12.5)),
+                outerCutOff = math.cos(math.rad(15.0)),        
+            },
+            pointLights = {
+                {
+                    ambient     = {  0.05, 0.05,  0.05 },
+                    diffuse     = {  0.8,  0.8,   0.8  },
+                    specular    = {  1.0,  1.0,   1.0  },
+                    position    = {  0.7,  0.2,   2.0  },
+                    constant    = 1.0,
+                    linear      = 0.09,
+                    quadratic   = 0.032,            
+                },
+                {
+                    ambient     = {  0.05, 0.05,  0.05 },
+                    diffuse     = {  0.8,  0.8,   0.8  },
+                    specular    = {  1.0,  1.0,   1.0  },
+                    position    = { -4.0,  2.0, -12.0  },
+                    constant    = 1.0,
+                    linear      = 0.09,
+                    quadratic   = 0.032,            
+                },
+                {
+                    ambient     = {  0.05, 0.05,  0.05 },
+                    diffuse     = {  0.8,  0.8,   0.8  },
+                    specular    = {  1.0,  1.0,   1.0  },
+                    position    = {  0.0,  0.0,  -3.0  },
+                    constant    = 1.0,
+                    linear      = 0.09,
+                    quadratic   = 0.032,            
+                },
+                {
+                    ambient     = {  0.05, 0.05,  0.05 },
+                    diffuse     = {  0.8,  0.8,   0.8  },
+                    specular    = {  1.0,  1.0,   1.0  },
+                    position    = {  0.7,  0.2,   2.0  },
+                    constant    = 1.0,
+                    linear      = 0.09,
+                    quadratic   = 0.032,            
+                },
+            }
+        })
+
+        -- lights.spotLight.position = { 1.0, 1.0, 1.0 }
+        -- lights.spotLight.direction = { 1.0, 1.0, 1.0 }
+
+        pass:send('Lights', lights)
+
         -- material properties 
         -- PLEASE NOTE: can likely use Material object instead with some shader modifications
         pass:send('matShininess', 32.0)
         pass:send('matDiffuse', diffuseMap)
         pass:send('matSpecular', specularMap)
-
-        local light = lovr.graphics.newBuffer(format, {
-            position    = camera:getPosition(),
-            direction   = camera:getDirection(),
-            ambient     = { 0.1, 0.1, 0.1 },
-            diffuse     = { 0.8, 0.8, 0.8 },
-            specular    = { 1.0, 1.0, 1.0 },
-            constant    = 1.0,
-            linear      = 0.09,
-            quadratic   = 0.032,
-            cutOff      = math.cos(math.rad(12.5)),
-            outerCutOff = math.cos(math.rad(15.0)),        
-        })
-
-        pass:send('LightCaster', light)
 
         -- render
         for idx, position in ipairs(cubePositions) do
@@ -181,6 +192,17 @@ function lovr.draw(pass)
 
             pass:draw(mesh, model)
         end
+
+        -- activate shader for drawing lamp
+        pass:setShader(lightCubeShader)
+
+        for idx, position in ipairs(pointLightPositions) do
+            local model = lovr.math.mat4(1.0)
+            model:translate(position)
+            model:scale(0.2)
+            pass:draw(mesh, model)
+        end
+
     end)
 end
 
