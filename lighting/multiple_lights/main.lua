@@ -10,6 +10,10 @@ local lightPos = { 1.2, 1.0, 2.0 }
 local lightingShader = lovr.graphics.newShader('shd/multiple_lights.vs', 'shd/multiple_lights.fs')
 local lightCubeShader = lovr.graphics.newShader('shd/light_cube.vs', 'shd/light_cube.fs')
 
+local lightingShaderFormat = lightingShader:getBufferFormat('Lights')
+-- we need to set layout to ensure data is properly padded
+lightingShaderFormat.layout = 'std140'
+
 --    positions            normals             tex coords
 local vertices = {
     -- face 1
@@ -79,24 +83,53 @@ local pointLightPositions = {
 }
 
 local diffuseMap = lovr.graphics.newTexture('gfx/container2.png')
-local specularMap = lovr.graphics.newTexture('gfx/container2_specular.png')    
+local specularMap = lovr.graphics.newTexture('gfx/container2_specular.png')
 
-local function printObject(tbl, ident)
-    ident = ident or ''
+local dirLight = {
+    ambient     = {  0.05, 0.05, 0.05 },
+    diffuse     = {  0.4,  0.4,  0.4  },
+    specular    = {  0.5,  0.5,  0.5  },
+    direction   = { -0.2, -1.0, -0.3  },
+}
 
-    for k,v in pairs(tbl) do
-        if type(v) == 'table' then
-            print(ident .. k .. ' = {') 
-            printObject(v, ident .. '  ')
-            print(ident .. '},')
-        else
-            print(ident .. k .. ' = ' .. v .. ',')
-        end 
-    end
-end
-
-local format, length = lightingShader:getBufferFormat('Lights')
-printObject(format)
+local pointLights = {
+    {
+        ambient     = {  0.05, 0.05,  0.05 },
+        diffuse     = {  0.8,  0.8,   0.8  },
+        specular    = {  1.0,  1.0,   1.0  },
+        position    = {  0.7,  0.2,   2.0  },
+        constant    = 1.0,
+        linear      = 0.09,
+        quadratic   = 0.032,            
+    },
+    {
+        ambient     = {  0.05, 0.05,  0.05 },
+        diffuse     = {  0.8,  0.8,   0.8  },
+        specular    = {  1.0,  1.0,   1.0  },
+        position    = { -4.0,  2.0, -12.0  },
+        constant    = 1.0,
+        linear      = 0.09,
+        quadratic   = 0.032,            
+    },
+    {
+        ambient     = {  0.05, 0.05,  0.05 },
+        diffuse     = {  0.8,  0.8,   0.8  },
+        specular    = {  1.0,  1.0,   1.0  },
+        position    = {  0.0,  0.0,  -3.0  },
+        constant    = 1.0,
+        linear      = 0.09,
+        quadratic   = 0.032,            
+    },
+    {
+        ambient     = {  0.05, 0.05,  0.05 },
+        diffuse     = {  0.8,  0.8,   0.8  },
+        specular    = {  1.0,  1.0,   1.0  },
+        position    = {  0.7,  0.2,   2.0  },
+        constant    = 1.0,
+        linear      = 0.09,
+        quadratic   = 0.032,            
+    },
+}
 
 function lovr.load()
     camera:init()
@@ -112,14 +145,10 @@ function lovr.draw(pass)
     camera:draw(pass, function()
         pass:setShader(lightingShader)
 
-        local lights = lovr.graphics.newBuffer(format, {
-            dirLight = {
-                ambient     = {  0.05, 0.05, 0.05 },
-                diffuse     = {  0.4,  0.4,  0.4  },
-                specular    = {  0.5,  0.5,  0.5  },
-                direction   = { -0.2, -1.0, -0.3  },
-            },
-            spotLight = {
+        local lights = lovr.graphics.newBuffer(lightingShaderFormat, {
+            pointLights = pointLights,
+            dirLight    = dirLight,
+            spotLight   = {
                 ambient     = { 0.0, 0.0, 0.0 },
                 diffuse     = { 1.0, 1.0, 1.0 },
                 specular    = { 1.0, 1.0, 1.0 },
@@ -131,44 +160,6 @@ function lovr.draw(pass)
                 cutOff      = math.cos(math.rad(12.5)),
                 outerCutOff = math.cos(math.rad(15.0)),        
             },
-            pointLights = {
-                {
-                    ambient     = {  0.05, 0.05,  0.05 },
-                    diffuse     = {  0.8,  0.8,   0.8  },
-                    specular    = {  1.0,  1.0,   1.0  },
-                    position    = {  0.7,  0.2,   2.0  },
-                    constant    = 1.0,
-                    linear      = 0.09,
-                    quadratic   = 0.032,            
-                },
-                {
-                    ambient     = {  0.05, 0.05,  0.05 },
-                    diffuse     = {  0.8,  0.8,   0.8  },
-                    specular    = {  1.0,  1.0,   1.0  },
-                    position    = { -4.0,  2.0, -12.0  },
-                    constant    = 1.0,
-                    linear      = 0.09,
-                    quadratic   = 0.032,            
-                },
-                {
-                    ambient     = {  0.05, 0.05,  0.05 },
-                    diffuse     = {  0.8,  0.8,   0.8  },
-                    specular    = {  1.0,  1.0,   1.0  },
-                    position    = {  0.0,  0.0,  -3.0  },
-                    constant    = 1.0,
-                    linear      = 0.09,
-                    quadratic   = 0.032,            
-                },
-                {
-                    ambient     = {  0.05, 0.05,  0.05 },
-                    diffuse     = {  0.8,  0.8,   0.8  },
-                    specular    = {  1.0,  1.0,   1.0  },
-                    position    = {  0.7,  0.2,   2.0  },
-                    constant    = 1.0,
-                    linear      = 0.09,
-                    quadratic   = 0.032,            
-                },
-            }
         })
 
         pass:send('Lights', lights)
@@ -179,7 +170,7 @@ function lovr.draw(pass)
         pass:send('matDiffuse', diffuseMap)
         pass:send('matSpecular', specularMap)
 
-        -- render
+        -- render boxes
         for idx, position in ipairs(cubePositions) do
             local model = lovr.math.mat4(1.0)
             model:translate(position)
@@ -192,6 +183,7 @@ function lovr.draw(pass)
         -- activate shader for drawing lamp
         pass:setShader(lightCubeShader)
 
+        -- render light cubes
         for idx, position in ipairs(pointLightPositions) do
             local model = lovr.math.mat4(1.0)
             model:translate(position)

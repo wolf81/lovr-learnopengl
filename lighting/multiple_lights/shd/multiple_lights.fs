@@ -130,7 +130,7 @@ vec4 lovrmain()
     // phase 2: point lights
     for(int i = 0; i < NR_POINT_LIGHTS; i++) 
     {        
-        // result += CalcPointLight(pointLights[i], viewDir);    
+        result += CalcPointLight(pointLights[i], viewDir);    
     }
 
     // phase 3: spot light
