@@ -16,3 +16,6 @@
 [submodule "lighting/multiple_lights/lib/lovr-camera"]
 	path = lighting/multiple_lights/lib/lovr-camera
 	url = https://github.com/wolf81/lovr-camera.git
+[submodule "advanced_lighting/normal_mapping/lib/lovr-camera"]
+	path = advanced_lighting/normal_mapping/lib/lovr-camera
+	url = https://github.com/wolf81/lovr-camera.git
