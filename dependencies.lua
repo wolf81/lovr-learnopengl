@@ -24,4 +24,5 @@ Transformations     = require 'src.tutorials.getting_started.transformations.tut
 CoordinateSystems   = require 'src.tutorials.getting_started.coordinate_systems.tutorial'
 
 -- tutorials: Advanced OpenGL
+Blending            = require 'src.tutorials.advanced_opengl.blending.tutorial'
 Cubemaps            = require 'src.tutorials.advanced_opengl.cubemaps.tutorial'

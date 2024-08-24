@@ -26,6 +26,7 @@ local lighting_menu = Menu('Lighting',
 
 local advanced_opengl = Menu('Advanced OpenGL',
 {
+    { ['name'] = 'Blending',            ['action'] = function() Gamestate.push(Blending()) end },
     { ['name'] = 'Cubemaps',            ['action'] = function() Gamestate.push(Cubemaps()) end },
 })
 
