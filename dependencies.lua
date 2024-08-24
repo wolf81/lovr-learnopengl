@@ -26,3 +26,4 @@ CoordinateSystems   = require 'src.tutorials.getting_started.coordinate_systems.
 -- tutorials: Advanced OpenGL
 Blending            = require 'src.tutorials.advanced_opengl.blending.tutorial'
 Cubemaps            = require 'src.tutorials.advanced_opengl.cubemaps.tutorial'
+AdvancedGLSL        = require 'src.tutorials.advanced_opengl.advanced_glsl.tutorial'

@@ -28,6 +28,7 @@ local advanced_opengl = Menu('Advanced OpenGL',
 {
     { ['name'] = 'Blending',            ['action'] = function() Gamestate.push(Blending()) end },
     { ['name'] = 'Cubemaps',            ['action'] = function() Gamestate.push(Cubemaps()) end },
+    { ['name'] = 'Advanced GLSL',       ['action'] = function() Gamestate.push(AdvancedGLSL()) end },
 })
 
 local main_menu = Menu('Learn OpenGL', 
