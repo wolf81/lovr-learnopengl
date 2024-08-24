@@ -68,24 +68,21 @@ Tutorial.new = function()
         back = 'gfx/skybox/back.jpg',
     })
 
-    local texture1 = lovr.graphics.newTexture('gfx/container.jpg')
-    local texture2 = lovr.graphics.newTexture('gfx/awesomeface.png')    
-
     local camera = Camera(0, 0, 3)
     camera:init()
 
     local draw = function(self, pass)
+        pass:setClear(0.1, 0.1, 0.1, 1.0)
+
         camera:draw(pass, function() 
             pass:skybox(skybox)
 
             pass:setShader(shader)
 
-            pass:send('texture1', texture1)
-            pass:send('texture2', texture2)
+            pass:send('skybox', skybox)
 
             local transform = lovr.math.mat4(1.0)
             transform:translate(0.5, -0.5, 0.0)
-            transform:rotate(lovr.timer.getTime(), 0.0, 0.0, 1.0)
             pass:transform(transform)
 
             pass:draw(mesh)
