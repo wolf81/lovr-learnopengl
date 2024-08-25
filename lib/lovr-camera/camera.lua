@@ -3,8 +3,8 @@ local PATH = (...):match('(.-)[^%.]+$')
 local Camera = {}
 
 Camera.new = function(x, y, z)
-    local transform = lovr.math.newMat4()
-    local position = lovr.math.newVec3(x or 0, y or 0, z or 0)
+    local transform = Mat4()
+    local position = Vec3(x or 0, y or 0, z or 0)
     local movespeed = 10
     local pitch = 0
     local yaw = 0
@@ -58,7 +58,7 @@ Camera.new = function(x, y, z)
     end
 
     local setPosition = function(self, x, y, z)
-        position = lovr.math.newVec3(x, y, z)
+        position = Vec3(x, y, z)
     end
 
     local getPosition = function(self)
@@ -66,7 +66,7 @@ Camera.new = function(x, y, z)
     end
 
     local getDirection = function(self)
-        return lovr.math.newQuat(transform):direction()
+        return Quat(transform):direction()
     end
 
     return setmetatable({

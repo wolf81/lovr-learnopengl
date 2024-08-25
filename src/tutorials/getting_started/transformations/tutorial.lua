@@ -30,7 +30,7 @@ Tutorial.new = function()
         pass:send('texture1', texture1)
         pass:send('texture2', texture2)
 
-        local transform = lovr.math.mat4(1.0)
+        local transform = mat4(1.0)
         transform:translate(0.5, -0.5, 0.0)
         transform:rotate(lovr.timer.getTime(), 0.0, 0.0, 1.0)
         pass:transform(transform)

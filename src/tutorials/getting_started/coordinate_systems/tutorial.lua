@@ -63,16 +63,16 @@ Tutorial.new = function()
     local window_width, window_height = lovr.system.getWindowDimensions()
 
     local cubePositions = {
-        lovr.math.newVec3( 0.0,  0.0,   0.0),
-        lovr.math.newVec3( 2.0,  5.0, -15.0),
-        lovr.math.newVec3(-1.5, -2.2,  -2.5),
-        lovr.math.newVec3(-3.8, -2.0, -12.3),
-        lovr.math.newVec3( 2.4, -0.4,  -3.5),
-        lovr.math.newVec3(-1.7,  3.0,  -7.5),
-        lovr.math.newVec3( 1.3, -2.0,  -2.5),
-        lovr.math.newVec3( 1.5,  2.0,  -2.5),
-        lovr.math.newVec3( 1.5,  0.2,  -1.5),
-        lovr.math.newVec3(-1.3,  1.0,  -1.5),
+        Vec3( 0.0,  0.0,   0.0),
+        Vec3( 2.0,  5.0, -15.0),
+        Vec3(-1.5, -2.2,  -2.5),
+        Vec3(-3.8, -2.0, -12.3),
+        Vec3( 2.4, -0.4,  -3.5),
+        Vec3(-1.7,  3.0,  -7.5),
+        Vec3( 1.3, -2.0,  -2.5),
+        Vec3( 1.5,  2.0,  -2.5),
+        Vec3( 1.5,  0.2,  -1.5),
+        Vec3(-1.3,  1.0,  -1.5),
     }
 
     local draw = function(self, pass)
@@ -80,8 +80,8 @@ Tutorial.new = function()
 
         pass:setShader(shader)
 
-        local view = lovr.math.mat4(1.0)
-        local projection = lovr.math.mat4(1.0)
+        local view = mat4(1.0)
+        local projection = mat4(1.0)
         --[[
         PLEASE NOTE:
         A far clipping plane of 0.0 can be used for an infinite far plane with reversed Z range. 
@@ -99,7 +99,7 @@ Tutorial.new = function()
 
         -- render boxes
         for idx, position in ipairs(cubePositions) do
-            local model = lovr.math.mat4(1.0)
+            local model = mat4(1.0)
             model:translate(position)
             local angle = (idx - 1) * 20
             model:rotate(math.rad(angle), 1.0, 0.3, 0.5)

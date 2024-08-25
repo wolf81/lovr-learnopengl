@@ -60,16 +60,16 @@ Tutorial.new = function()
     }, vertices)
 
     local cube_positions = {
-        lovr.math.newVec3( 0.0,  0.0,   0.0),
-        lovr.math.newVec3( 2.0,  5.0, -15.0),
-        lovr.math.newVec3(-1.5, -2.2,  -2.5),
-        lovr.math.newVec3(-3.8, -2.0, -12.3),
-        lovr.math.newVec3( 2.4, -0.4,  -3.5),
-        lovr.math.newVec3(-1.7,  3.0,  -7.5),
-        lovr.math.newVec3( 1.3, -2.0,  -2.5),
-        lovr.math.newVec3( 1.5,  2.0,  -2.5),
-        lovr.math.newVec3( 1.5,  0.2,  -1.5),
-        lovr.math.newVec3(-1.3,  1.0,  -1.5),
+        Vec3( 0.0,  0.0,   0.0),
+        Vec3( 2.0,  5.0, -15.0),
+        Vec3(-1.5, -2.2,  -2.5),
+        Vec3(-3.8, -2.0, -12.3),
+        Vec3( 2.4, -0.4,  -3.5),
+        Vec3(-1.7,  3.0,  -7.5),
+        Vec3( 1.3, -2.0,  -2.5),
+        Vec3( 1.5,  2.0,  -2.5),
+        Vec3( 1.5,  0.2,  -1.5),
+        Vec3(-1.3,  1.0,  -1.5),
     }
 
     local texture1 = lovr.graphics.newTexture('gfx/container.jpg')
@@ -89,7 +89,7 @@ Tutorial.new = function()
 
             -- render boxes
             for idx, position in ipairs(cube_positions) do
-                local model = lovr.math.mat4(1.0)
+                local model = mat4(1.0)
                 model:translate(position)
                 local angle = (idx - 1) * 20
                 model:rotate(math.rad(angle), 1.0, 0.3, 0.5)
@@ -103,15 +103,9 @@ Tutorial.new = function()
         camera:update(dt)
     end
 
-    local leave = function(self)
-        camera:deinit()
-        camera = nil
-    end
-
     return setmetatable({
         -- methods
         draw    = draw,
-        leave   = leave,
         update  = update,
     }, Tutorial)
 end

@@ -81,7 +81,7 @@ Tutorial.new = function()
 
             pass:send('skybox', skybox)
 
-            local transform = lovr.math.mat4(1.0)
+            local transform = mat4(1.0)
             transform:translate(0.5, -0.5, 0.0)
             pass:transform(transform)
 

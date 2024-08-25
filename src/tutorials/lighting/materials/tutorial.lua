@@ -6,10 +6,7 @@ local gammaToLinear = lovr.math.gammaToLinear
 local Tutorial = {}
 
 Tutorial.new = function()
-    local camera = Camera()
-    camera:init()
-
-    local light_pos = lovr.math.newVec3(1.2, 1.0, 2.0)
+    local light_pos = Vec3(1.2, 1.0, 2.0)
 
     local shd_dir = (debug.getinfo(1).source:match("@?(.*/)") or '') .. 'shd/'
     local lighting_shader = lovr.graphics.newShader(
@@ -18,6 +15,9 @@ Tutorial.new = function()
     local lightcube_shader = lovr.graphics.newShader(
         shd_dir .. 'light_cube.vs', 
         shd_dir .. 'light_cube.fs')
+
+    local camera = Camera(0, 0, 3)
+    camera:init()
 
     local draw = function(self, pass)
         local time = lovr.timer.getTime()
@@ -49,16 +49,10 @@ Tutorial.new = function()
     local update = function(self, dt)
         camera:update(dt)
     end
-
-    local leave = function(self, to)
-        camera:deinit()
-        camera = nil
-    end
     
     return setmetatable({
         -- methods
         draw    = draw,
-        leave   = leave,
         update  = update,
     }, Tutorial)
 end

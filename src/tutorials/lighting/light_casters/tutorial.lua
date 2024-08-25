@@ -6,10 +6,7 @@ local gammaToLinear = lovr.math.gammaToLinear
 local Tutorial = {}
 
 Tutorial.new = function()
-    local camera = Camera(0, 0, 3)
-    camera:init()
-
-    local light_pos = lovr.math.newVec3(1.2, 1.0, 2.0)
+    local light_pos = Vec3(1.2, 1.0, 2.0)
 
     local shd_dir = (debug.getinfo(1).source:match("@?(.*/)") or '') .. 'shd/'
     local lighting_shader = lovr.graphics.newShader(
@@ -66,20 +63,23 @@ Tutorial.new = function()
     local mesh = lovr.graphics.newMesh(vertices, 'gpu')
 
     local cube_positions = {
-        lovr.math.newVec3( 0.0,  0.0,   0.0),
-        lovr.math.newVec3( 2.0,  5.0, -15.0),
-        lovr.math.newVec3(-1.5, -2.2,  -2.5),
-        lovr.math.newVec3(-3.8, -2.0, -12.3),
-        lovr.math.newVec3( 2.4, -0.4,  -3.5),
-        lovr.math.newVec3(-1.7,  3.0,  -7.5),
-        lovr.math.newVec3( 1.3, -2.0,  -2.5),
-        lovr.math.newVec3( 1.5,  2.0,  -2.5),
-        lovr.math.newVec3( 1.5,  0.2,  -1.5),
-        lovr.math.newVec3(-1.3,  1.0,  -1.5),
+        Vec3( 0.0,  0.0,   0.0),
+        Vec3( 2.0,  5.0, -15.0),
+        Vec3(-1.5, -2.2,  -2.5),
+        Vec3(-3.8, -2.0, -12.3),
+        Vec3( 2.4, -0.4,  -3.5),
+        Vec3(-1.7,  3.0,  -7.5),
+        Vec3( 1.3, -2.0,  -2.5),
+        Vec3( 1.5,  2.0,  -2.5),
+        Vec3( 1.5,  0.2,  -1.5),
+        Vec3(-1.3,  1.0,  -1.5),
     }
 
     local diffuse_map = lovr.graphics.newTexture('gfx/container2.png')
     local specular_map = lovr.graphics.newTexture('gfx/container2_specular.png')    
+
+    local camera = Camera(0, 0, 3)
+    camera:init()
 
     local draw = function(self, pass)
         pass:setClear(0.1, 0.1, 0.1, 1.0)
@@ -111,7 +111,7 @@ Tutorial.new = function()
 
             -- render
             for idx, position in ipairs(cube_positions) do
-                local model = lovr.math.mat4(1.0)
+                local model = mat4(1.0)
                 model:translate(position)
                 local angle = (idx - 1) * 20
                 model:rotate(math.rad(angle), 1.0, 0.3, 0.5)
@@ -124,16 +124,10 @@ Tutorial.new = function()
     local update = function(self, dt)
         camera:update(dt)
     end
-
-    local leave = function(self, to)
-        camera:deinit()
-        camera = nil
-    end
     
     return setmetatable({
         -- methods
         draw    = draw,
-        leave   = leave,    
         update  = update,        
     }, Tutorial)
 end

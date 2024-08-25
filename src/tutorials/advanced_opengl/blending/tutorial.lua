@@ -96,11 +96,11 @@ Tutorial.new = function()
     local transparent_texture = lovr.graphics.newTexture('gfx/window.png')
 
     local windows = {
-        lovr.math.newVec3(-1.5,  0.0,  0.48),
-        lovr.math.newVec3( 1.5,  0.0,  0.51),
-        lovr.math.newVec3( 0.0,  0.0,  0.7),
-        lovr.math.newVec3(-0.3,  0.0, -2.3),
-        lovr.math.newVec3( 0.5,  0.0, -0.6),
+        Vec3(-1.5,  0.0,  0.48),
+        Vec3( 1.5,  0.0,  0.51),
+        Vec3( 0.0,  0.0,  0.7),
+        Vec3(-0.3,  0.0, -2.3),
+        Vec3( 0.5,  0.0, -0.6),
     }
 
     local camera = Camera(0, 0, 3)
@@ -119,17 +119,17 @@ Tutorial.new = function()
             pass:setShader(shader)
 
             pass:send('texture1', cube_texture)
-            local model = lovr.math.mat4(1.0)
+            local model = mat4(1.0)
             model:translate(-1.0, 0.0, -1.0)
             pass:draw(cube, model)
 
             pass:send('texture1', floor_texture)
-            model = lovr.math.mat4(1.0)
+            model = mat4(1.0)
             pass:draw(plane, model)
 
             pass:send('texture1', transparent_texture)
             for _, coord in ipairs(windows) do
-                model = lovr.math.mat4(1.0)
+                model = mat4(1.0)
                 model:translate(coord)
                 pass:draw(transparent, model)
             end

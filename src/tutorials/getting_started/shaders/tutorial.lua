@@ -34,7 +34,7 @@ Tutorial.new = function()
 
         local green_value = math.sin(lovr.timer.getTime()) / 2.0 + 0.5
 
-        pass:send('ourColor', lovr.math.vec4(0.0, green_value, 0.0, 1.0))
+        pass:send('ourColor', vec4(0.0, green_value, 0.0, 1.0))
 
         pass:mesh(vertices, indices, 0, 0, -1)
     end

@@ -50,10 +50,15 @@ Menu.new = function(title, menu_items)
             button:draw(pass)
         end
     end
+
+    local enter = function(self, from)
+        lovr.mouse.setRelativeMode(false)
+    end
     
     return setmetatable({
         -- methods
         draw    = draw,
+        enter   = enter,
         update  = update,
     }, Menu)
 end
