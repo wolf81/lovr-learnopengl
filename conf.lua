@@ -6,4 +6,6 @@ function lovr.conf(t)
     -- for tutorials that make use of stencil buffer
     t.graphics.stencil = 'd24s8'
     t.headset.stencil = 'd24s8'
+    -- t.graphics.debug = true
+    -- t.graphics.compileShaders = true
 end

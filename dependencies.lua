@@ -26,6 +26,7 @@ CoordinateSystems   = require 'src.tutorials.getting_started.coordinate_systems.
 -- tutorials: Advanced OpenGL
 Blending            = require 'src.tutorials.advanced_opengl.blending.tutorial'
 Cubemaps            = require 'src.tutorials.advanced_opengl.cubemaps.tutorial'
+Instancing          = require 'src.tutorials.advanced_opengl.Instancing.tutorial'
 AdvancedGLSL        = require 'src.tutorials.advanced_opengl.advanced_glsl.tutorial'
 DepthTesting        = require 'src.tutorials.advanced_opengl.depth_testing.tutorial'
 StencilTesting      = require 'src.tutorials.advanced_opengl.stencil_testing.tutorial'

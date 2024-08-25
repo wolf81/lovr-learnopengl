@@ -14,6 +14,9 @@ Tutorial.new = function()
 
     local material = lovr.graphics.newMaterial({
         texture = lovr.graphics.newTexture('obj/backpack/diffuse.jpg'),
+        normalTexture = lovr.graphics.newTexture('obj/backpack/normal.png'),
+        roughnessTexture = lovr.graphics.newTexture('obj/backpack/roughness.jpg'),
+        -- glowTexture = lovr.graphics.newTexture('obj/backpack/specular.jpg'),
     })
 
     local camera = Camera(0, 0, 3)

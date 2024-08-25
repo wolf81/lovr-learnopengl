@@ -31,6 +31,7 @@ local advanced_opengl = Menu('Advanced OpenGL',
     { ['name'] = 'Blending',            ['action'] = function() Gamestate.push(Blending()) end },
     { ['name'] = 'Cubemaps',            ['action'] = function() Gamestate.push(Cubemaps()) end },
     { ['name'] = 'Advanced GLSL',       ['action'] = function() Gamestate.push(AdvancedGLSL()) end },
+    { ['name'] = 'Instancing',          ['action'] = function() Gamestate.push(Instancing()) end },
     { ['name'] = 'Back',                ['action'] = function() Gamestate.pop() end },
 })
 
