@@ -26,6 +26,7 @@ local lighting_menu = Menu('Lighting',
 
 local advanced_opengl = Menu('Advanced OpenGL',
 {
+    { ['name'] = 'Stencil Testing',     ['action'] = function() Gamestate.push(StencilTesting()) end },
     { ['name'] = 'Blending',            ['action'] = function() Gamestate.push(Blending()) end },
     { ['name'] = 'Cubemaps',            ['action'] = function() Gamestate.push(Cubemaps()) end },
     { ['name'] = 'Advanced GLSL',       ['action'] = function() Gamestate.push(AdvancedGLSL()) end },

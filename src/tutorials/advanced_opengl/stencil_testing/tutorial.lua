@@ -2,11 +2,15 @@ local Camera = require 'lib.lovr-camera.camera'
 
 local Tutorial = {}
 
-Tutorial.new = function()        
+Tutorial.new = function()
     local shd_dir = (debug.getinfo(1).source:match("@?(.*/)") or '') .. 'shd/'
     local shader = lovr.graphics.newShader(
-        shd_dir .. 'blending.vs', 
-        shd_dir .. 'blending.fs')
+        shd_dir .. 'stencil_testing.vs', 
+        shd_dir .. 'stencil_testing.fs')
+
+    local shader_single_color = lovr.graphics.newShader(
+        shd_dir .. 'stencil_testing.vs',
+        shd_dir .. 'stencil_single_color.fs')
 
     --    positions            tex coords
     local cube_vertices = {
@@ -65,17 +69,6 @@ Tutorial.new = function()
         {  5.0, -0.5, -5.0  ;  2.0, 2.0  },
     }
 
-    --     positions           tex coords
-    local transparent_vertices = {
-        {  0.0,  0.5,  0.0  ;  0.0,  0.0  },
-        {  0.0, -0.5,  0.0  ;  0.0,  1.0  },
-        {  1.0, -0.5,  0.0  ;  1.0,  1.0  },
-
-        {  0.0,  0.5,  0.0  ;  0.0,  0.0  },
-        {  1.0, -0.5,  0.0  ;  1.0,  1.0  },
-        {  1.0,  0.5,  0.0  ;  1.0,  0.0  },
-    }
-
     local cube = lovr.graphics.newMesh({ 
         { 'VertexPosition', 'vec3' }, 
         { 'VertexUV',       'vec2' },
@@ -86,22 +79,8 @@ Tutorial.new = function()
         { 'VertexUV',       'vec2' }, 
     }, plane_vertices)
 
-    local transparent = lovr.graphics.newMesh({
-        { 'VertexPosition', 'vec3' }, 
-        { 'VertexUV',       'vec2' },         
-    }, transparent_vertices)
-
     local cube_texture = lovr.graphics.newTexture('gfx/marble.jpg')
     local floor_texture = lovr.graphics.newTexture('gfx/metal.png')    
-    local transparent_texture = lovr.graphics.newTexture('gfx/window.png')
-
-    local windows = {
-        lovr.math.newVec3(-1.5,  0.0,  0.48),
-        lovr.math.newVec3( 1.5,  0.0,  0.51),
-        lovr.math.newVec3( 0.0,  0.0,  0.7),
-        lovr.math.newVec3(-0.3,  0.0, -2.3),
-        lovr.math.newVec3( 0.5,  0.0, -0.6),
-    }
 
     local camera = Camera(0, 0, 3)
     camera:init()
@@ -109,31 +88,55 @@ Tutorial.new = function()
     local draw = function(self, pass)
         pass:setClear(0.1, 0.1, 0.1, 1.0)
 
-        table.sort(windows, function(a, b) 
-            local d1 = a:distance(camera:getPosition())
-            local d2 = b:distance(camera:getPosition())
-            return d2 < d1
-        end)
+        pass:setDepthTest('gequal')
 
         camera:draw(pass, function() 
+            pass:setShader(shader_single_color)
+
+            pass:setStencilWrite('zero')
+
             pass:setShader(shader)
+            pass:send('texture1', floor_texture)
+
+            model = mat4(1.0)
+            pass:draw(plane, model)
+
+            pass:setStencilWrite('replace', 1, 0xFF)
+            pass:setStencilTest('none', 1, 0xFF)
 
             pass:send('texture1', cube_texture)
-            local model = lovr.math.mat4(1.0)
+            local model = mat4(1.0)
             model:translate(-1.0, 0.0, -1.0)
             pass:draw(cube, model)
 
-            pass:send('texture1', floor_texture)
-            model = lovr.math.mat4(1.0)
-            pass:draw(plane, model)
+            model = mat4(1.0)
+            model:translate(2.0, 0.0, 0.0)
+            pass:draw(cube, model)
 
-            pass:send('texture1', transparent_texture)
-            for _, coord in ipairs(windows) do
-                model = lovr.math.mat4(1.0)
-                model:translate(coord)
-                pass:draw(transparent, model)
-            end
+            pass:setStencilWrite('zero')
+            pass:setStencilTest('notequal', 1, 0xFF)
+            pass:setDepthTest()
+
+            pass:setShader(shader_single_color)
+
+            local scale = 1.1
+
+            model = model:identity()
+            model:translate(-1.0, 0.0, -1.0)
+            model:scale(scale, scale)
+            pass:draw(cube, model)
+
+            model = mat4(1.0)
+            model:translate(2.0, 0.0, 0.0)
+            model:scale(scale, scale)
+            pass:draw(cube, model)
+
+            pass:setStencilWrite()
+
+            pass:setShader(shader)
         end)
+
+        pass:setDepthTest('gequal')        
     end
 
     local update = function(self, dt)

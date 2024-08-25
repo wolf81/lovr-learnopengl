@@ -2,7 +2,7 @@ local Camera = require 'lib.lovr-camera.camera'
 
 local Tutorial = {}
 
-Tutorial.new = function()        
+Tutorial.new = function()
     local shd_dir = (debug.getinfo(1).source:match("@?(.*/)") or '') .. 'shd/'
     local shader = lovr.graphics.newShader(
         shd_dir .. 'cubemaps.vs', 
