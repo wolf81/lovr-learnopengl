@@ -11,6 +11,7 @@ The directory structure is as follows:
 - `src/`: contains the tuturial source code and some additions for menu navigation in the root program.
 - `lib/`: contains several dependencies, this is code found elsewhere such as lovr-mouse. I've decided to directly integrate the libraries into this repo (no submodules), for easy of use.
 - `gfx/`: contains graphical assets used in tutorials.
+- `obj/`: contains 3D models.
 
 As mentioned before, a basic UI is included for menu navigation. This allows a user to start the main program from the root directory and navigate between the tutorials. Some tutorials include a camera and if so, navigation is possible using mouse and keyboard (`<A>`, `<S>`, `<D>`, `<F>`). The `<escape>` button can be pressed to navigate back from a tutorial or menu.
 

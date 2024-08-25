@@ -31,12 +31,19 @@ local advanced_opengl = Menu('Advanced OpenGL',
     { ['name'] = 'Blending',            ['action'] = function() Gamestate.push(Blending()) end },
     { ['name'] = 'Cubemaps',            ['action'] = function() Gamestate.push(Cubemaps()) end },
     { ['name'] = 'Advanced GLSL',       ['action'] = function() Gamestate.push(AdvancedGLSL()) end },
+    { ['name'] = 'Back',                ['action'] = function() Gamestate.pop() end },
+})
+
+local model_loading = Menu('Model Loading', {
+    { ['name'] = 'Model',               ['action'] = function() Gamestate.push(Model()) end },
+    { ['name'] = 'Back',                ['action'] = function() Gamestate.pop() end },
 })
 
 local main_menu = Menu('Learn OpenGL', 
 {
     { ['name'] = 'Getting Started',     ['action'] = function() Gamestate.push(getting_started_menu) end },
     { ['name'] = 'Lighting',            ['action'] = function() Gamestate.push(lighting_menu) end },
+    { ['name'] = 'Model Loading',       ['action'] = function() Gamestate.push(model_loading) end },
     { ['name'] = 'Advanced OpenGL',     ['action'] = function() Gamestate.push(advanced_opengl) end },
 })
 
