@@ -20,7 +20,6 @@ Tutorial.new = function()
     })
 
     local camera = Camera(0, 0, 3)
-    camera:init()
 
     local draw = function(self, pass)
         pass:setClear(0.05, 0.05, 0.05, 1.0)
@@ -42,9 +41,14 @@ Tutorial.new = function()
         camera:update(dt)
     end
 
+    local leave = function(self, to)
+        camera:deinit()
+    end    
+
     return setmetatable({
         -- methods
         draw    = draw,
+        leave   = leave,
         update  = update,
     }, Tutorial)
 end

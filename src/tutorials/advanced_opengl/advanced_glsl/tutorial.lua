@@ -69,8 +69,7 @@ Tutorial.new = function()
     -- to improve the tutorial, we should make a shared buffer that e.g.
     -- adds a color to mix for every shader
 
-    local camera = Camera()
-    camera:init()
+    local camera = Camera(0, 0, 3)
 
     local draw = function(self, pass)
         pass:setClear(0.1, 0.1, 0.1, 1.0)        
@@ -103,9 +102,14 @@ Tutorial.new = function()
         camera:update(dt)
     end
 
+    local leave = function(self, to)
+        camera:deinit()
+    end
+
     return setmetatable({
         -- methods
         draw    = draw,
+        leave   = leave,
         update  = update,
     }, Tutorial)
 end

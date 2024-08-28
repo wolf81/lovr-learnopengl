@@ -10,15 +10,12 @@ Constants {
     vec3 lightSpecular;
 };
 
-in vec3 fragPos;
-in vec3 normal;
-
 vec4 lovrmain() {
     // ambient
     vec3 ambient = lightAmbient * matAmbient;
     
     // diffuse 
-    vec3 norm = normalize(normal);
+    vec3 norm = normalize(Normal);
     vec3 lightDir = normalize(lightPosition - PositionWorld);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = lightDiffuse * (diff * matDiffuse);

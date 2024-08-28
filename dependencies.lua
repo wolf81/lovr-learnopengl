@@ -1,7 +1,6 @@
 -- lib
 Gamestate           = require 'lib.hump.gamestate'
 Timer               = require 'lib.hump.timer'
-lovr.mouse          = require 'lib.lovr-mouse.lovr-mouse'
 
 -- core app
 Button              = require 'src.button'
