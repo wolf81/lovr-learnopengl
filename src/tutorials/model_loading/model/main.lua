@@ -10,11 +10,6 @@ local success = lovr.filesystem.mount('../../../../obj', '/obj')
 
 local tutorial = Tutorial() 
 
-function lovr.load()
-    lovr.mouse = require 'lib.lovr-mouse.lovr-mouse'
-    lovr.mouse.setRelativeMode(true)
-end
-
 function lovr.update(dt)
     tutorial:update(dt)
 

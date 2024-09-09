@@ -68,7 +68,6 @@ Tutorial.new = function()
     local specular_map = lovr.graphics.newTexture('gfx/container2_specular.png')
 
     local camera = Camera(0, 0, 3)
-    camera:init()
 
     local draw = function(self, pass)
         pass:setClear(0.1, 0.1, 0.1, 1.0)
@@ -101,10 +100,15 @@ Tutorial.new = function()
     local update = function(self, dt)
         camera:update(dt)
     end
+
+    local leave = function(self, to)
+        camera:deinit()
+    end    
     
     return setmetatable({
         -- methods
         draw    = draw,
+        leave   = leave,
         update  = update,
     }, Tutorial)
 end

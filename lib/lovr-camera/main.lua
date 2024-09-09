@@ -4,11 +4,6 @@ local Camera = require 'Camera'
 -- create new instance
 local camera = Camera(0, 1.7, 0)
 
-function lovr.load(args)
-    -- configure camera, this will allow mouse turning
-    camera:init()
-end
-
 function lovr.update(dt)
     -- update camera transform based on speed, time
     camera:update(dt)

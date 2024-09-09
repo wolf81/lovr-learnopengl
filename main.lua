@@ -48,14 +48,6 @@ local main_menu = Menu('Learn OpenGL',
     { ['name'] = 'Advanced OpenGL',     ['action'] = function() Gamestate.push(advanced_opengl) end },
 })
 
-local function traverse(menu_item)
-    print(menu_item:getName(), menu_item:getPath())
-
-    for _, child in ipairs(menu_item:getChildren()) do
-        traverse(child)
-    end
-end
-
 function lovr.load(args)
     Gamestate.registerEvents()
     Gamestate.switch(main_menu)

@@ -17,8 +17,8 @@ Button.new = function(title, fn)
 
         local was_pressed = is_press and is_hover
 
-        local mx, my = lovr.mouse.getPosition()
-        is_press = lovr.mouse.isDown(1)
+        local mx, my = lovr.system.getMousePosition()
+        is_press = lovr.system.isMouseDown(1)
         is_hover = (
             mx > x - w / 2 and mx < x + w / 2 and
             my > y - h / 2 and my < y + h / 2)

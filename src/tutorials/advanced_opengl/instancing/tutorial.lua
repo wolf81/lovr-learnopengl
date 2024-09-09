@@ -55,7 +55,6 @@ Tutorial.new = function()
     local rock_texture = lovr.graphics.newTexture('obj/rock/rock.png')
 
     local camera = Camera(0, 0, 155)
-    camera:init()
 
     local draw = function(self, pass)
         pass:setClear(0.1, 0.1, 0.1, 1.0)
@@ -78,9 +77,14 @@ Tutorial.new = function()
         camera:update(dt)
     end
 
+    local leave = function(self, to)
+        camera:deinit()
+    end
+
     return setmetatable({
         -- methods
         draw    = draw,
+        leave   = leave,
         update  = update,
     }, Tutorial)
 end
